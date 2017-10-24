@@ -81,7 +81,7 @@ tmp=[1,3,4]
 schedule.append(tmp)
 tmp=[0,2,4]
 schedule.append(tmp)
-tmp=[0,3,4]
+tmp=[1,3,4]
 schedule.append(tmp)
 #header marks:
 potential_headers=4
@@ -114,6 +114,7 @@ finaldescription=[]
 #filename="AP_stats.docx"
 filename=sys.argv[1]
 period=sys.argv[2]
+course=sys.argv[3]
 directory="../../toicalendar/Files/"
 #note the directory is from the perspective of the location of upload.php
 document=Document(directory+filename)
@@ -180,18 +181,17 @@ for i in range(1,len(rows)):
                     tmp=tmp.split('/')
                     curmonth=int(tmp[0])
                     curstart=int(tmp[1])
+                result=re.search(r"day [1|2|3]",cells[keywordlocs[k]].text,re.I)
+                if(result!=None):
+                    tmp=result.group()
+                    tmp=tmp.split()
+                    curday=int(tmp[1])
+                    print(curmonth,curstart,curday)
                 else:
-                    result=re.search(r"day [1|2|3]",cells[keywordlocs[k]].text,re.I)
+                    result=re.search(r"[1|2|3]",cells[keywordlocs[k]].text,flags=0)
                     if(result!=None):
                         tmp=result.group()
-                        tmp=tmp.split()
-                        curday=int(tmp[1])
-                        #print(curmonth,curstart,curday)
-                    else:
-                        result=re.search(r"[1|2|3]",cells[keywordlocs[k]].text,flags=0)
-                        if(result!=None):
-                            tmp=result.group()
-                            curday=int(tmp)
+                        curday=int(tmp)
         if(keywords[k]=="week"):
             result=re.search(r"[01]?[0-9]/[0|1|2|3]?[0-9]",cells[keywordlocs[k]].text,flags=0)
             if(result!=None):
@@ -240,13 +240,14 @@ for i in range(0,len(period)):
     cal=Calendar()
     curperiod=ord(period[i])-65
     for k in range(0,len(finalm)):
-        event=Event()
-        event.add("dtstart",datetime.date(finaly[k],finalm[k],finals[k])+datetime.timedelta(days=schedule[curperiod][finald[k]-1]))
-        event.add("dtend",datetime.date(finaly[k],finalm[k],finals[k])+datetime.timedelta(days=schedule[curperiod][finald[k]-1]))
-        event.add("summary",finalname[k])
-        if(finaldescription[k]!="No"):
-            event.add("description",finaldescription[k])
-        cal.add_component(event)
+        if(not finaldescription[k]==''):
+            event=Event()
+            event.add("dtstart",datetime.date(finaly[k],finalm[k],finals[k])+datetime.timedelta(days=schedule[curperiod][finald[k]-1]))
+            event.add("dtend",datetime.date(finaly[k],finalm[k],finals[k])+datetime.timedelta(days=schedule[curperiod][finald[k]-1]))
+            event.add("summary",course+':'+finalname[k])
+            if(finaldescription[k]!="No"):
+                event.add("description",finaldescription[k])
+            cal.add_component(event)
     outfile=open(directory+filename+'_'+period[i]+".ics",'w')
     outfile.write(cal.to_ical())
     outfile.close()
