@@ -37,6 +37,11 @@ def find_keywords(table):
                 flag3 = 1
             #else:
                 #print("multiple matches for assignment!")
+        result=re.search("homework",cell.text,re.I)
+        if(result!=None):
+            if(flag3==0):
+                assignment=i
+                flag3=1
         result = re.search("description", cell.text, re.I)
         if (result != None):
             if (flag4 == 0):
@@ -248,7 +253,7 @@ for i in range(0,len(period)):
             if(finaldescription[k]!="No"):
                 event.add("description",finaldescription[k])
             cal.add_component(event)
-    outfile=open(directory+filename+'_'+period[i]+".ics",'w')
+    outfile=open(directory+period[i]+"_period_"+course+".ics",'w')
     outfile.write(cal.to_ical())
     outfile.close()
 debug.close()
