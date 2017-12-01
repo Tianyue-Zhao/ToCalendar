@@ -17,6 +17,34 @@ html,body
     color:rgb(255,255,255);
     text-align:center;
 }
+div#Navbar{
+    position: absolute;
+    top: 0px;
+    z-index: 10;
+    height: 60px;
+    border-style: none;
+    text-align: left;
+    text-transform: capitalize;
+    color: rgba(255, 255, 255, 1);
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+}
+ul#Navlist {
+    float: right;
+    font-size: 14px;
+    height: 100%;
+    list-style-type: none;
+    margin: 0px;
+    padding: 0px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+}
+
+ul#Navlist li {
+    display: inline-block;
+    position: relative;
+    height: 100%;
+}
 img
 {
 	margin: 0px;
