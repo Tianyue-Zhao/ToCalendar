@@ -1,0 +1,12 @@
+html,body{    
+    background-image:url("images/P1100087.JPG");
+	background-size:cover;
+	background-repeat: no-repeat;
+    background-attachment:fixed;
+	height: 100%;
+    position: relative;
+    padding: 0px;
+    margin: 0px;
+    color: white;
+    text-align: center;
+}

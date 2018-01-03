@@ -1,0 +1,163 @@
+/*
+*
+{
+	margin: 0px;
+}
+*/
+/*
+html,body
+{
+	background-image:url("images/P1100032.JPG");
+	background-size:cover;
+	background-repeat: no-repeat;
+    background-attachment:fixed;
+	height: 100%;
+    position: relative;
+    padding: 0px;
+    margin: 0px;
+    color:rgb(255,255,255);
+    text-align:center;
+}
+*/
+div#Navbar{
+    position: absolute;
+    top: 0px;
+    z-index: 10;
+    height: 60px;
+    border-style: none;
+    text-align: left;
+    text-transform: capitalize;
+    color: rgba(255, 255, 255, 1);
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+}
+ul#Navlist {
+    float: right;
+    font-size: 14px;
+    height: 100%;
+    list-style-type: none;
+    margin: 0px;
+    padding: 0px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+}
+
+ul#Navlist li {
+    display: inline-block;
+    position: relative;
+    height: 100%;
+}
+img
+{
+	margin: 0px;
+}
+a
+{
+	color:yellow;
+}
+#content-wrapper{
+    margin: 80px auto 130px auto;
+}
+div#Navigation
+{
+    position: absolute;
+    background-color:black;
+    top: 0px;
+    z-index: 10;
+    height: 10px;
+    border-style: none;
+    text-align: left;
+    text-transform: capitalize;
+}
+.wrapper
+{
+	margin: 0px;
+}
+
+/*MISC, not sure if useful*/
+/* Wrappers */
+.wrapper {
+    position: relative;
+    text-align: center;
+    width: 100%;
+    padding: 0px;
+    margin: 0px;
+}
+
+#navigation-wrapper{
+    border-style: none none solid none;
+    border-color: rgb(255, 255, 255);
+    border-width: 4px;
+    text-transform: capitalize;
+}
+
+#content-wrapper{
+    margin: 80px auto 130px auto;
+}
+
+.subsection-wrapper{
+    width: 100%;
+    background-size: 100%;
+    background-position: 50% 50%;
+    text-align: justify;
+    margin: 65px 0px;
+    padding: 0px;
+}
+
+.subsection-wrapper:first-child{
+    margin-top:0px;
+}
+
+.subsection-wrapper:last-child{
+    margin-bottom:0px;
+}
+
+.imaged-subsection-wrapper{
+    padding: 80px 0px 110px 0px;
+    margin-bottom: 110px;
+}
+
+/* General Text Formatting */
+.title{
+    display: block;
+    color: rgb(240, 10, 10);
+}
+
+.bold{
+    font-weight: 600;
+}
+
+/* General Structuring */
+.subsection{
+    width: 60%;
+    padding: 0px;
+    margin: 0px auto;
+}
+
+.imaged-subsection-wrapper .subsection .sectionTitle{
+    margin: 0px auto 92px auto;
+}
+
+.subsection-wrapper:first-child .subsection .sectionTitle{
+    margin-bottom: 60px;
+}
+
+.sectionBody .image-container {
+    padding: 0px;
+}
+
+.sectionBody p{
+    text-indent: 0px;
+    line-height: 26px;
+    margin-bottom: 32px;
+}
+
+.sectionTitle {
+    display: block;
+    text-align: center;
+    font-size: 28px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin: 0px auto 15px auto;
+}
