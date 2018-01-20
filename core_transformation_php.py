@@ -171,32 +171,32 @@ for i in range(1,len(rows)):
     cells=rows[i].cells
     for k in range(0,len(keywordlocs)):
         if(keywords[k]=="mixeddate"):
-            result=re.search(r"[01]?[0-9]/[0|1|2|3]?[0-9]/[0-9]*",cells[keywordlocs[k]].text,flags=0) #enabled, previously not enabled
-            result=None  #add recording to see which teachers use the full notation?
+            #result=re.search(r"[01]?[0-9]/[0|1|2|3]?[0-9]/[0-9]*",cells[keywordlocs[k]].text,flags=0) #enabled, previously not enabled
+            #result=None  #add recording to see which teachers use the full notation?
+            #if(result!=None):
+            #    tmp=result.group()
+            #    tmp=tmp.split('/')
+            #    curmonth=int(tmp[0])
+            #    curstart=int(tmp[1])
+            #    curday=int(tmp[2])
+            #else:
+            result=re.search(r"[01]?[0-9]/[0|1|2|3]?[0-9]",cells[keywordlocs[k]].text,flags=0) #search in form of "mm/dd"
             if(result!=None):
                 tmp=result.group()
                 tmp=tmp.split('/')
                 curmonth=int(tmp[0])
                 curstart=int(tmp[1])
-                curday=int(tmp[2])
+            result=re.search(r"day [1|2|3]",cells[keywordlocs[k]].text,re.I)
+            if(result!=None):
+                tmp=result.group()
+                tmp=tmp.split()
+                curday=int(tmp[1])
+                #print(curmonth,curstart,curday)
             else:
-                result=re.search(r"[01]?[0-9]/[0|1|2|3]?[0-9]",cells[keywordlocs[k]].text,flags=0)
+                result=re.search(r"[1|2|3]",cells[keywordlocs[k]].text,flags=0)
                 if(result!=None):
                     tmp=result.group()
-                    tmp=tmp.split('/')
-                    curmonth=int(tmp[0])
-                    curstart=int(tmp[1])
-                result=re.search(r"day [1|2|3]",cells[keywordlocs[k]].text,re.I)
-                if(result!=None):
-                    tmp=result.group()
-                    tmp=tmp.split()
-                    curday=int(tmp[1])
-                    print(curmonth,curstart,curday)
-                else:
-                    result=re.search(r"[1|2|3]",cells[keywordlocs[k]].text,flags=0)
-                    if(result!=None):
-                        tmp=result.group()
-                        curday=int(tmp)
+                    curday=int(tmp)
         if(keywords[k]=="week"):
             result=re.search(r"[01]?[0-9]/[0|1|2|3]?[0-9]",cells[keywordlocs[k]].text,flags=0)
             if(result!=None):
@@ -246,10 +246,16 @@ for i in range(0,len(period)):
     curperiod=ord(period[i])-65
     for k in range(0,len(finalm)):
         if(not finaldescription[k]==''):
-            event=Event()
-            event.add("dtstart",datetime.date(finaly[k],finalm[k],finals[k])+datetime.timedelta(days=schedule[curperiod][finald[k]-1]))
-            event.add("dtend",datetime.date(finaly[k],finalm[k],finals[k])+datetime.timedelta(days=schedule[curperiod][finald[k]-1]))
-            event.add("summary",course+':'+finalname[k])
+            if(not finald[k]==3): #this helps display the due date, not the date assigned
+                event=Event() #the date in the following 2 lines are deliberatly postponed by 1 class day to display the due date
+                event.add("dtstart",datetime.date(finaly[k],finalm[k],finals[k])+datetime.timedelta(days=schedule[curperiod][finald[k]]))
+                event.add("dtend",datetime.date(finaly[k],finalm[k],finals[k])+datetime.timedelta(days=schedule[curperiod][finald[k]]))
+                event.add("summary",course+':'+finalname[k])
+            else: #if the assignment is assigned on class day 3, the due date will be class day 1 of the next week
+                event=Event()
+                event.add("dtstart",datetime.date(finaly[k],finalm[k],finals[k])+datetime.timedelta(days=schedule[curperiod][0]+7))
+                event.add("dtend",datetime.date(finaly[k],finalm[k],finals[k])+datetime.timedelta(days=schedule[curperiod][0]+7))
+                event.add("summary",course+':'+finalname[k])
             if(finaldescription[k]!="No"):
                 event.add("description",finaldescription[k])
             cal.add_component(event)
