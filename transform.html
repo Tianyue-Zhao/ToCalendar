@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <title>ToCalendar | Start</title>
+    <link rel="stylesheet" href="CSS/primaryStyle.css" type="text/css">
+</head>
+<body>   
+    <div class="wrapper" id="navbar">
+        <div id="navContainer">
+            <ul id="navList">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="transform.html">Start</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="tips.html">Tips for use</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="wrapper" id="content-wrapper">
+        <div class="wrapper subsection-wrapper" style="background-color:rgb(255, 255, 255);">
+            <div class="subsection">
+                <div class="sectionBody">
+                    <!--<a href="https://youtu.be/LxznQlEtPEA">Video tutorial for using this website</a><br>-->
+                    Import homework documents into a calendar app with a few simple steps!<br>
+                    This 1-minute video shows the entire process:<br>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/LxznQlEtPEA" frameborder="0" allowfullscreen></iframe>
+<br>
+<form action="./upload.php" method="post" enctype="multipart/form-data">
+	<h3>Step 1</h3>
+	Please select the word document containing the homework calendar:<br>
+    <input type="file" name="fileToUpload" id="fileToUpload">
+    <h3>Step 2</h3>
+    <p>Please enter the periods you need the calendars for in the following box.<br>Use single letters not separated by anything. <br> "BCF" would generate calendars for periods B,C and F.<br><input type="text" name="periods"></p>
+	
+    <h3>Step 3</h3>
+    Please enter the name of the course your calendar is for.
+    <input type="text" name="course">
+	<h3>Step 4</h3>
+	When you're done, click Convert and save the zip file that contains the homework calendars!
+    <input type="submit" value="Convert" name="submit">
+    <h3>Step 5</h3>
+    Extract the data files from the zip
+    <h3>If you're a student...</h3>
+    Import the data files into your preferred calendar app, and you're all set!
+    <h3>If you're a teacher...</h3>
+    Please share the data files with your students, and don't forget to tell them about it!
+</form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
