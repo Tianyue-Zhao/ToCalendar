@@ -13,6 +13,7 @@ def find_keywords(table):
     flag5=0
     flag6=0
     flag7=0
+    #flag8=0 #for absolute date, or adate
     row=table.rows[0]
     i=0
     for cell in row.cells:
@@ -61,6 +62,10 @@ def find_keywords(table):
         if(result!=None):
             flag7=1
             day3=i
+        #result=re.sesarch("absolute date",cell.text,re.I)
+        #if(result!=None):
+        #    flag8=1
+        #    adate=i
         i+=1
     return date,week,assignment,description,day1,day2,day3
 
@@ -93,6 +98,7 @@ potential_headers=4
 keywordlocs=[]
 keywords=[]
 date=-1    #these four rows are the column numbers of the respective fields.
+#adate=-1
 week=-1
 assignment=-1
 description=-1
@@ -137,6 +143,9 @@ if(date!=-1):
     else:
         keywordlocs.append(date)
         keywords.append("mixeddate")
+#elif(adate!=-1):
+#    keywordlocs.append(adate)
+#    keywords.append("adate")
 else:
     debug.write("no_date!")
     print(9/0)
