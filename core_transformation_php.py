@@ -178,76 +178,79 @@ rows=table.rows
 for i in range(1,len(rows)):
     curday=-1
     cells=rows[i].cells
-    for k in range(0,len(keywordlocs)):
-        if(keywords[k]=="mixeddate"):
-            #result=re.search(r"[01]?[0-9]/[0|1|2|3]?[0-9]/[0-9]*",cells[keywordlocs[k]].text,flags=0) #enabled, previously not enabled
-            #result=None  #add recording to see which teachers use the full notation?
-            #if(result!=None):
-            #    tmp=result.group()
-            #    tmp=tmp.split('/')
-            #    curmonth=int(tmp[0])
-            #    curstart=int(tmp[1])
-            #    curday=int(tmp[2])
-            #else:
-            result=re.search(r"[01]?[0-9]/[0|1|2|3]?[0-9]",cells[keywordlocs[k]].text,flags=0) #search in form of "mm/dd"
-            if(result!=None):
-                tmp=result.group()
-                tmp=tmp.split('/')
-                curmonth=int(tmp[0])
-                curstart=int(tmp[1])
-            result=re.search(r"day [1|2|3]",cells[keywordlocs[k]].text,re.I)
-            if(result!=None):
-                tmp=result.group()
-                tmp=tmp.split()
-                curday=int(tmp[1])
-                #print(curmonth,curstart,curday)
-            else:
-                result=re.search(r"[1|2|3]",cells[keywordlocs[k]].text,flags=0)
+    try:
+        for k in range(0,len(keywordlocs)):
+            if(keywords[k]=="mixeddate"):
+                #result=re.search(r"[01]?[0-9]/[0|1|2|3]?[0-9]/[0-9]*",cells[keywordlocs[k]].text,flags=0) #enabled, previously not enabled
+                #result=None  #add recording to see which teachers use the full notation?
+                #if(result!=None):
+                #    tmp=result.group()
+                #    tmp=tmp.split('/')
+                #    curmonth=int(tmp[0])
+                #    curstart=int(tmp[1])
+                #    curday=int(tmp[2])
+                #else:
+                result=re.search(r"[01]?[0-9]/[0|1|2|3]?[0-9]",cells[keywordlocs[k]].text,flags=0) #search in form of "mm/dd"
                 if(result!=None):
                     tmp=result.group()
+                    tmp=tmp.split('/')
+                    curmonth=int(tmp[0])
+                    curstart=int(tmp[1])
+                result=re.search(r"day [1|2|3]",cells[keywordlocs[k]].text,re.I)
+                if(result!=None):
+                    tmp=result.group()
+                    tmp=tmp.split()
+                    curday=int(tmp[1])
+                    #print(curmonth,curstart,curday)
+                else:
+                    result=re.search(r"[1|2|3]",cells[keywordlocs[k]].text,flags=0)
+                    if(result!=None):
+                        tmp=result.group()
+                        curday=int(tmp)
+            if(keywords[k]=="week"):
+                result=re.search(r"[01]?[0-9]/[0|1|2|3]?[0-9]",cells[keywordlocs[k]].text,flags=0)
+                if(result!=None):
+                    tmp = result.group()
+                    tmp = tmp.split('/')
+                    curmonth = int(tmp[0])
+                    curstart = int(tmp[1])
+            if(keywords[k]=="date"):
+                result=re.search(r"[1|2|3]",cells[keywordlocs[k]].text,flags=0)
+                if (result != None):
+                    tmp = result.group()
                     curday=int(tmp)
-        if(keywords[k]=="week"):
-            result=re.search(r"[01]?[0-9]/[0|1|2|3]?[0-9]",cells[keywordlocs[k]].text,flags=0)
-            if(result!=None):
-                tmp = result.group()
-                tmp = tmp.split('/')
-                curmonth = int(tmp[0])
-                curstart = int(tmp[1])
-        if(keywords[k]=="date"):
-            result=re.search(r"[1|2|3]",cells[keywordlocs[k]].text,flags=0)
-            if (result != None):
-                tmp = result.group()
-                curday=int(tmp)
-                #print(curmonth, curstart, curday)
+                    #print(curmonth, curstart, curday)
+                else:
+                    continue
+            if(keywords[k]=="description"):
+                details=cells[keywordlocs[k]].text
+            if(keywords[k]=="assignment"):
+                name=cells[keywordlocs[k]].text
+            if(keywords[k]=="mixeddescription"):
+                name = cells[keywordlocs[k]].text
+                details="No"
+            if(keywords[k]=="day1"):
+                name=cells[keywordlocs[k]].text
+                details="No"
+            if(keywords[k]=="day2"):
+                name=cells[keywordlocs[k]].text
+                details="No"
+            if(keywords[k]=="day3"):
+                name=cells[keywordlocs[k]].text
+                details="No"
+        if(1<=curmonth<=12 and 1<=curstart<=31):
+            if(curmonth<8):
+                curyear=year+1
             else:
-                continue
-        if(keywords[k]=="description"):
-            details=cells[keywordlocs[k]].text
-        if(keywords[k]=="assignment"):
-            name=cells[keywordlocs[k]].text
-        if(keywords[k]=="mixeddescription"):
-            name = cells[keywordlocs[k]].text
-            details="No"
-        if(keywords[k]=="day1"):
-            name=cells[keywordlocs[k]].text
-            details="No"
-        if(keywords[k]=="day2"):
-            name=cells[keywordlocs[k]].text
-            details="No"
-        if(keywords[k]=="day3"):
-            name=cells[keywordlocs[k]].text
-            details="No"
-    if(1<=curmonth<=12 and 1<=curstart<=31):
-        if(curmonth<8):
-            curyear=year+1
-        else:
-            curyear=year
-        finalm.append(curmonth)
-        finals.append(curstart)
-        finald.append(curday)
-        finaly.append(curyear)
-        finalname.append(name)
-        finaldescription.append(details)
+                curyear=year
+            finalm.append(curmonth)
+            finals.append(curstart)
+            finald.append(curday)
+            finaly.append(curyear)
+            finalname.append(name)
+            finaldescription.append(details)
+    except:
+        continue
 #creating the calendar itself
 filename=filename.split('.')[0]
 for i in range(0,len(period)):
