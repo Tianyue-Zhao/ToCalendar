@@ -126,36 +126,11 @@ finaldescription=[]
 filename=sys.argv[1]
 period=sys.argv[2]
 course=sys.argv[3]
-directory="/home/victor/Calendar_project/Files/"
+directory="../../toicalendar/Files/"
 #note the directory is from the perspective of the location of upload.php
 document=Document(directory+filename)
 table=document.tables[0]
 debug=open("debug.txt",'w')
-period=period.upper()
-
-#preprocessing for putting all the periods into one calendar
-if(len(period)>1):
-    d1=['','']
-    d2=['','','']
-    d3=['','']
-    for i in range(0,len(period)):
-        d1[schedule[ord(period[i])-65][0]]+=period[i]+','
-        d2[schedule[ord(period[i])-65][1]-1]+=period[i]+','
-        d3[schedule[ord(period[i])-65][2]-3]+=period[i]+','
-    if(not d1[0]==''):
-        d1[0]=d1[0][:-1]+':'
-    if(not d1[1]==''):
-        d1[1]=d1[1][:-1]+':'
-    if(not d2[0]==''):
-        d2[0]=d2[0][:-1]+':'
-    if(not d2[1]==''):
-        d2[1]=d2[1][:-1]+':'
-    if(not d2[2]==''):
-        d2[2]=d2[2][:-1]+':'
-    if(not d3[0]==''):
-        d3[0]=d3[0][:-1]+':'
-    if(not d3[1]==''):
-        d3[1]=d3[1][:-1]+':'
 
 #determine the meanings of the headers
 [date,week,assignment,description,day1,day2,day3]=find_keywords(table)
@@ -196,6 +171,7 @@ elif(day1!=-1 and day2!=-1 and day3!=-1):
 else:
     debug.write("no_description")
     print(9/0)
+period=period.upper()
 
 #go through the rows, and construct the calendar
 rows=table.rows
@@ -277,90 +253,25 @@ for i in range(1,len(rows)):
         continue
 #creating the calendar itself
 filename=filename.split('.')[0]
-if(len(period)>1):
+for i in range(0,len(period)):
     cal=Calendar()
+    curperiod=ord(period[i])-65
     for k in range(0,len(finalm)):
-        if(not finalname[k]==''):
-            if(finald[k]==3):
-                if(not d1[0]==''):
-                    event=Event()
-                    event.add("dtstart",datetime.date(finaly[k],finalm[k],finals[k])+datetime.timedelta(days=7))
-                    event.add("dtend",datetime.date(finaly[k],finalm[k],finals[k])+datetime.timedelta(days=7))
-                    event.add("summary",course+','+d1[0]+finalname[k])
-                    if(finaldescription[k]!="No"):
-                        event.add("description",finaldescription[k])
-                    cal.add_component(event)
-                if(not d1[1]==''):
-                    event=Event()
-                    event.add("dtstart",datetime.date(finaly[k],finalm[k],finals[k])+datetime.timedelta(days=8))
-                    event.add("dtend",datetime.date(finaly[k],finalm[k],finals[k])+datetime.timedelta(days=8))
-                    event.add("summary",course+','+d1[1]+finalname[k])
-                    if(finaldescription[k]!="No"):
-                        event.add("description",finaldescription[k])
-                    cal.add_component(event)
-            if(finald[k]==1):
-                if(not d2[0]==''):
-                    event=Event()
-                    event.add("dtstart",datetime.date(finaly[k],finalm[k],finals[k])+datetime.timedelta(days=1))
-                    event.add("dtend",datetime.date(finaly[k],finalm[k],finals[k])+datetime.timedelta(days=1))
-                    event.add("summary",course+','+d2[0]+finalname[k])
-                    if(finaldescription[k]!="No"):
-                        event.add("description",finaldescription[k])
-                    cal.add_component(event)
-                if(not d2[1]==''):
-                    event=Event()
-                    event.add("dtstart",datetime.date(finaly[k],finalm[k],finals[k])+datetime.timedelta(days=2))
-                    event.add("dtend",datetime.date(finaly[k],finalm[k],finals[k])+datetime.timedelta(days=2))
-                    event.add("summary",course+','+d2[1]+finalname[k])
-                    if(finaldescription[k]!="No"):
-                        event.add("description",finaldescription[k])
-                    cal.add_component(event)
-                if(not d2[2]==''):
-                    event=Event()
-                    event.add("dtstart",datetime.date(finaly[k],finalm[k],finals[k])+datetime.timedelta(days=3))
-                    event.add("dtend",datetime.date(finaly[k],finalm[k],finals[k])+datetime.timedelta(days=3))
-                    event.add("summary",course+','+d2[2]+finalname[k])
-                    if(finaldescription[k]!="No"):
-                        event.add("description",finaldescription[k])
-                    cal.add_component(event)
-            if(finald[k]==2):
-                if(not d3[0]==''):
-                    event=Event()
-                    event.add("dtstart",datetime.date(finaly[k],finalm[k],finals[k])+datetime.timedelta(days=3))
-                    event.add("dtend",datetime.date(finaly[k],finalm[k],finals[k])+datetime.timedelta(days=3))
-                    event.add("summary",course+','+d3[0]+finalname[k])
-                    if(finaldescription[k]!="No"):
-                        event.add("description",finaldescription[k])
-                    cal.add_component(event)
-                if(not d3[1]==''):
-                    event=Event()
-                    event.add("dtstart",datetime.date(finaly[k],finalm[k],finals[k])+datetime.timedelta(days=4))
-                    event.add("dtend",datetime.date(finaly[k],finalm[k],finals[k])+datetime.timedelta(days=4))
-                    event.add("summary",course+','+d3[1]+finalname[k])
-                    if(finaldescription[k]!="No"):
-                        event.add("description",finaldescription[k])
-                    cal.add_component(event)
-    outfile=open(directory+course+".ics",'w')
-    outfile.write(cal.to_ical())
-    outfile.close()
-elif(len(period)==1):
-    cal=Calendar()
-    for k in range(0,len(finalm)):
-        if(not finalname[k]==''):
+        if(not finaldescription[k]==''):
             if(not finald[k]==3): #this helps display the due date, not the date assigned
                 event=Event() #the date in the following 2 lines are deliberatly postponed by 1 class day to display the due date
-                event.add("dtstart",datetime.date(finaly[k],finalm[k],finals[k])+datetime.timedelta(days=schedule[ord(period[0])-65][finald[k]]))
-                event.add("dtend",datetime.date(finaly[k],finalm[k],finals[k])+datetime.timedelta(days=schedule[ord(period[0])-65][finald[k]]))
+                event.add("dtstart",datetime.date(finaly[k],finalm[k],finals[k])+datetime.timedelta(days=schedule[curperiod][finald[k]]))
+                event.add("dtend",datetime.date(finaly[k],finalm[k],finals[k])+datetime.timedelta(days=schedule[curperiod][finald[k]]))
                 event.add("summary",course+':'+finalname[k])
             else: #if the assignment is assigned on class day 3, the due date will be class day 1 of the next week
                 event=Event()
-                event.add("dtstart",datetime.date(finaly[k],finalm[k],finals[k])+datetime.timedelta(days=schedule[ord(period[0])-65][0]+7))
-                event.add("dtend",datetime.date(finaly[k],finalm[k],finals[k])+datetime.timedelta(days=schedule[ord(period[0])-65][0]+7))
+                event.add("dtstart",datetime.date(finaly[k],finalm[k],finals[k])+datetime.timedelta(days=schedule[curperiod][0]+7))
+                event.add("dtend",datetime.date(finaly[k],finalm[k],finals[k])+datetime.timedelta(days=schedule[curperiod][0]+7))
                 event.add("summary",course+':'+finalname[k])
             if(finaldescription[k]!="No"):
                 event.add("description",finaldescription[k])
             cal.add_component(event)
-    outfile=open(directory+course+".ics",'w')
+    outfile=open(directory+period[i]+"_period_"+course+".ics",'w')
     outfile.write(cal.to_ical())
     outfile.close()
 debug.close()
